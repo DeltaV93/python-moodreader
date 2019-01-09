@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Nova+Slim|Open+Sans:300,400');
+/*
+    FONTS
+*/
+body {
+    font-family: 'Open Sans';
+}
+
+.mrg-logo--mood {
+    font-weight: 300;
+    font-size: 95%;
+}
+.mrg-logo--reader {
+    font-family: 'Nova Slim', cursive;
+}
+/*
+    APP STYLES
+*/
+section {
+    margin-bottom: 70px;
+}
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 0 9px rgba(255, 255, 255, 0.15)
+}
+
+.btn {
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0, 0.25));
+    text-transform: uppercase;
+}
+/*
+    HOME PAGE
+*/
+.mrg--title {
+    background-image: url(https://media.giphy.com/media/39lWTXEdmp4qnZtHIK/source.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 35vh;
+}

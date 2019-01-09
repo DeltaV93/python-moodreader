@@ -1,33 +1,33 @@
 {% extends "generator/base.html" %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('MoodReader') }}{% endblock %}
+{% block title %}Read My Mood | {{ site_title|default:_('MoodReader') }}{% endblock %}
 
-
-{#{% block branding %}#}
-{#<h1 id="site-name"><a href="{% url 'generator:index' %}">MoodReader Administration</a></h1>#}
-{#{% endblock %}#}
-{##}
-{#{% block nav-global %}{% endblock  %}#}
-
-
-{#{% extends "generator/base_site.html" %}#}
-{#{% load i18n static %}#}
-{##}
-{#{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}#}
-{##}
-{#{% block coltype %}colMS{% endblock %}#}
-{##}
-{#{% block bodyclass %}{{ block.super }} dashboard{% endblock %}#}
-{##}
-{#{% block breadcrumbs %}{% endblock %}#}
-{##}
 {% block content %}
-    <form action="mood/" method="POST">
-        {% csrf_token %}
-      <div class="form-group">
-        <label for="mood-entry">Enter Your Mood</label>
-        <textarea class="form-control" id="mood-entry" name="mood-entry" rows="3"></textarea>
-      </div>
-        <button class="btn btn-warning float-right"><b>Generate Mood</b></button>
-    </form>
+    <section class="mrg-section--about">
+        <h2>What's MoodReader?</h2>
+        <p>MoodReader is a mood ring but for your word. Type in how your feeling, what your thinking of, or even your
+            latest tweet to get a generated color gradient of your word mood.</p>
+    </section>
+
+    <section class="mrg-section--try">
+
+        <h2>Try it out now!</h2>
+        <form action="mood/" method="POST" class="container">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="mood-entry">Enter in a few words below to see what color your words will turn.</label>
+            <textarea class="form-control" id="mood-entry" name="mood-entry" rows="3"></textarea>
+          </div>
+            <button class="btn btn-warning float-right"><b>Generate Mood</b></button>
+        </form>
+    </section>
+
+{#    <section class="mrg-section--how">#}
+{#        <h2>How It Works</h2>#}
+{#        <p>MoordReader looks at all the words you use and give them a color points that is used to genorate your mood color.#}
+{#        Using words with positive connotation (happy, love, laugh), will get a higher score and print out brighter colors.#}
+{#        Use words with negative connotation will return lower scores, and darker colors.</p>#}
+{#    </section>#}
+
+
 {% endblock %}

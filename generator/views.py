@@ -44,7 +44,8 @@ def generate_mood(request):
             group_sum = sum(group)
             sum_to_power = math.pow(group_sum, 5.5)
             power_to_hex = hex(math.ceil(sum_to_power))
-            print(power_to_hex[-6:])
+            power_to_hex = format(math.ceil(sum_to_power), 'x')
+            print(power_to_hex)
             color_list.append(power_to_hex[-6:])
 
 
