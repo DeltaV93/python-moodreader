@@ -25,12 +25,13 @@ def generate_mood(request):
     for w in mood_entry_list:
         try:
             db_lookup = Dictionary.objects.get(word=w)
+            print(db_lookup.word_value)
             get_color_point = db_lookup.word_value
             color_points_list.append(get_color_point)
         except Dictionary.DoesNotExist:
-            # get_color_point = 0
-            get_color_point = randint(0, 3)
+            get_color_point = 0
             color_points_list.append(get_color_point)
+    print(color_points_list)
 
     # split color point list into 3 and find sum for each
     def divide_into_chunks(group, num_chunks):
