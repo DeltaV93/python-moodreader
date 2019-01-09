@@ -1,4 +1,5 @@
 {% extends "generator/base.html" %}
+{% load i18n %}
 
 {% block title %}Read My Mood | {{ site_title|default:_('MoodReader') }}{% endblock %}
 
@@ -16,9 +17,32 @@
             {% csrf_token %}
           <div class="form-group">
             <label for="mood-entry">Enter in a few words below to see what color your words will turn.</label>
-            <textarea class="form-control" id="mood-entry" name="mood-entry" rows="3"></textarea>
+            <textarea class="form-control" placeholder="Enter 10 words or more so we can know how your feeling" id="mood-entry" name="mood-entry" rows="3"></textarea>
           </div>
-            <button class="btn btn-warning float-right"><b>Generate Mood</b></button>
-        </form>
+            <button id="btn--send-mood" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button>
     </section>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var moodEntry = $('#mood-entry');
+            var btn = $('#btn--send-mood');
+
+            moodEntry.on('keyup',function () {
+                let wordCount = $(this).val().match(/\S+/g);
+                let currentValueLength = wordCount ? wordCount.length : 0;
+
+                if(currentValueLength <= 10){
+                    console.log('enter more words');
+                    btn.prop('disabled', true);
+                }else {
+                    console.log('entered enough');
+                    btn.prop('disabled', false);
+                }
+
+            });
+        })
+    </script>
 {% endblock %}
