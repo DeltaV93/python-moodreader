@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "generator/base.html" %}
 
-</body>
-</html>
+{% block title %}{{ title }} | {{ site_title|default:_('MoodReader') }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Your Mood!</h1>
+            <h2 class="lead">Positive/happy words  will print bright happy colors</h2>
+            <h2 class="lead">Negative/sad/mad words  will print darker moody colors</h2>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="mood-color" style="height: 35vh;width: 100%;">
+                <div style="height: 100%; background-image: linear-gradient(to right, #{{ color_list.0 }}, #{{ color_list.1 }}, #{{ color_list.2 }}); ">MOOD COLOR </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

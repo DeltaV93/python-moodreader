@@ -1,10 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "generator/base.html" %}
 
-</body>
-</html>
+{% block title %}{{ title }} | {{ site_title|default:_('MoodReader') }}{% endblock %}
+
+
+{#{% block branding %}#}
+{#<h1 id="site-name"><a href="{% url 'generator:index' %}">MoodReader Administration</a></h1>#}
+{#{% endblock %}#}
+{##}
+{#{% block nav-global %}{% endblock  %}#}
+
+
+{#{% extends "generator/base_site.html" %}#}
+{#{% load i18n static %}#}
+{##}
+{#{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}">{% endblock %}#}
+{##}
+{#{% block coltype %}colMS{% endblock %}#}
+{##}
+{#{% block bodyclass %}{{ block.super }} dashboard{% endblock %}#}
+{##}
+{#{% block breadcrumbs %}{% endblock %}#}
+{##}
+{% block content %}
+    <form action="mood/" method="POST">
+        {% csrf_token %}
+      <div class="form-group">
+        <label for="mood-entry">Enter Your Mood</label>
+        <textarea class="form-control" id="mood-entry" name="mood-entry" rows="3"></textarea>
+      </div>
+        <button class="btn btn-warning float-right"><b>Generate Mood</b></button>
+    </form>
+{% endblock %}
