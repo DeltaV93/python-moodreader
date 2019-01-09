@@ -1,10 +1,8 @@
 import math
-from random import randint
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
-from django.views import generic
+from random import randint
+from django.shortcuts import render
+
 
 from .models import Dictionary
 
@@ -16,11 +14,13 @@ def index(request):
 
 
 def generate_mood(request):
+
     mood_entry = request.POST['mood-entry']
     mood_entry_list = mood_entry.lower().split()
     mood_list_length = len(mood_entry_list)
     num_words_per_group = math.ceil(mood_list_length/3)
     color_points_list = []
+
     # find color point in db
     for w in mood_entry_list:
         try:
@@ -42,19 +42,11 @@ def generate_mood(request):
     def group_sum_to_color(list_group):
         for group in list_group:
             group_sum = sum(group)
-            sum_to_power = math.pow(group_sum, 5.5)
+            sum_to_power = math.pow((group_sum * group_sum), 5.5)
             power_to_hex = hex(math.ceil(sum_to_power))
-            power_to_hex = format(math.ceil(sum_to_power), 'x')
-            print(power_to_hex)
             color_list.append(power_to_hex[-6:])
-
 
     color_points_groups = list(divide_into_chunks(color_points_list, num_words_per_group))
     group_sum_to_color(color_points_groups)
-    print(color_list)
-
-    # print(' '.join(z))
     # turn sum into hex color & pass back to UI
-
-    # pprint.pprint(list(list_chunk(mood_entry_list, num_words_per_group)))
     return render(request, 'generator/mood.html', {"color_list": color_list})

@@ -1,20 +1,33 @@
 {% extends "generator/base.html" %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('MoodReader') }}{% endblock %}
+{% block title %} Results | {{ site_title|default:_('MoodReader') }}{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-sm-6">
-            <h1>Your Mood!</h1>
-            <h2 class="lead">Positive/happy words  will print bright happy colors</h2>
-            <h2 class="lead">Negative/sad/mad words  will print darker moody colors</h2>
-
-        </div>
-        <div class="col-sm-6">
-            <div class="mood-color" style="height: 35vh;width: 100%;">
-                <div style="height: 100%; background-image: linear-gradient(to right, #{{ color_list.0 }}, #{{ color_list.1 }}, #{{ color_list.2 }}); ">MOOD COLOR </div>
+    <section class="row">
+            <div class="col-sm-12 col-md-6 mb-5">
+                <h1>Your Mood!</h1>
+                <h2 class="lead">Positive/happy words  will print bright happy colors</h2>
+                <h2 class="lead">Negative/sad/mad words  will print darker moody colors</h2>
+                <a class="btn btn-warning" href="/generator">Try Again</a>
             </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="mrg-mood--box" style="height: 35vh;width: 100%;">
+                    <div class="mrg-mood--box__color" style="height: 100%; background-image: linear-gradient(to right, #{{ color_list.0 }}, #{{ color_list.1 }}, #{{ color_list.2 }}); "> </div>
+                </div>
+
+            </div>
+    </section>
+    <section class="row">
+        <div class="col-sm-12">
+                 <section class="mrg-section--how">
+                    <h2>How It Works</h2>
+                    <p>MoodReader looks at all the words you use and give them a color points that is used to generate your mood color.
+                    Using words with positive connotation (happy, love, laugh), will get a higher score and print out brighter colors.
+                    Use words with negative connotation will return lower scores, and darker colors.</p>
+                </section>
         </div>
-    </div>
+    </section>
+
+
 
 {% endblock %}

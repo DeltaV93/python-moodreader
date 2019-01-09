@@ -36,5 +36,17 @@ section {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    height: 45vh;
+}
+/*
+    MOOD RESULTS
+*/
+.mrg-mood--box {
     height: 35vh;
+    width: 100%;
+}
+.mrg-mood--box__color {
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.2);
 }
