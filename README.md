@@ -15,14 +15,35 @@ Installation
 -----------
 
 ````
-pip install python-test
+$ cd sites
+$ git clone https://github.com/DeltaV93/python-test.git
+$ cd python-test
+$ pip install -r requirements.txt
+$ python manage.py migrate
 ````
 
-Requirements
+Run Test
 -----------
-Django 2.1.5 Python 3.7
 
-Usage
+````
+$ python manage.py test generator
+````
+
+
+To Run 
+-----------
+
+````
+python manage.py runserver 
+````
+
+Visit http://127.0.0.1:8000/generator/ to start the MoodReader process.
+
+Visit http://127.0.0.1:8000/admin/ to use any of the CRUD methods for the dictionary DB tables. 
+
+
+
+Set up
 -----------
 
 1. Add "generator" to your INSTALLED_APPS setting like this::
@@ -42,14 +63,12 @@ Usage
 
 3. Run `python manage.py migrate` to create the generator models.
 
-4. Start the development server and visit http://127.0.0.1:8000/admin/
-   to add a word in the dictionary (you'll need the Admin app enabled).
+4. Start the server and test things out. 
 
-5. Visit http://127.0.0.1:8000/generator/ to start the MoodReader process.
 
 Endpoints
 -----------
 ````
 http://127.0.0.1:8000/generator/mood
 ````
-POST request that takes in the user entry and returns colors list to results page  
+POST request that takes in the user `entry-mood` and returns `colors-list` to results page  
