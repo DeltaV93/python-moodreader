@@ -7,9 +7,9 @@ their words. Each time a word entry is submitted each word is checked
 for positive/negative connotation and given a color point based on the power
 the word. Positive words get positive(happy) brighter colors, negative(sad) words get darker colors.
 
-TODO: Detailed documentation is in the "docs" directory.
-TODO: Refactor the views & model to save mood entry data to create better test.
-TODO: Add better UX to the results page by returning their entry & color.
+1. TODO: Refactor the views & model to save mood entry data to create better test.
+2. TODO: Add better UX to the results page by returning their entry & color.
+3. TODO: Detailed documentation is in the "docs" directory.
 
 Installation
 -----------
