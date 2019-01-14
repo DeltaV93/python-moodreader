@@ -1,4 +1,6 @@
 include LICENSE
 include README.rst
-recursive-include polls/static *
-recursive-include polls/templates *
+recursive-include generator/static *
+recursive-include generator/templates *
+recursive-include templates/ *
+recursive-include static/ *

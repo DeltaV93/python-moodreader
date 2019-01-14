@@ -1,14 +1,11 @@
 import math
 
-from random import randint
 from django.shortcuts import render
 
 
 from .models import Dictionary
 
-#
-# class IndexView(request):
-#     return get
+
 def index(request):
     return render(request, 'generator/index.html')
 
@@ -38,10 +35,11 @@ def generate_mood(request):
 
     color_list = []
 
+    # turn entry color points into hex colors
     def group_sum_to_color(list_group):
         for group in list_group:
             group_sum = sum(group)
-            sum_to_power = math.pow((group_sum * group_sum), 5.5)
+            sum_to_power = math.pow((group_sum * group_sum * 6), 5.0)
             power_to_hex = hex(math.ceil(sum_to_power))
             color_list.append(power_to_hex[-6:])
 

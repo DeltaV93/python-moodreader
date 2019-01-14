@@ -25,7 +25,7 @@ SECRET_KEY = '9ydns@5_3!+u2y&oc7p=)%a7boybbi^=@j9x5ca&%vad!)2@1u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['testserver', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'polls.apps.PollsConfig',
     'generator.apps.GeneratorConfig',
 
 ]
@@ -124,6 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+    os.path.join(BASE_DIR, "static")
 ]
