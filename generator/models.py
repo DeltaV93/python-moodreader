@@ -9,4 +9,7 @@ class Dictionary(models.Model):
         return self.word
 
     def word_color_value(self):
+        # What is this for?
         return self.word_value
+
+# Add complexity by adding a second model with a foriegn key.
