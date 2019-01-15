@@ -42,6 +42,7 @@ python manage.py runserver
 Visit http://127.0.0.1:8000/generator/ to start the MoodReader process.
 
 // How do i use admin? it's asking for a user/password. Showing curl commands instead is more accessible.
+// Also it says I can use any crud method, but the endpoints only shows POST.
 
 Visit http://127.0.0.1:8000/admin/ to use any of the CRUD methods for the dictionary DB tables. 
 
