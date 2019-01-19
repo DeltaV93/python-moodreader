@@ -15,10 +15,12 @@ Installation
 -----------
 
 ````
+# add info about making a virtual env. Just to be thorough.
+# I got no migrations to apply.
 $ cd sites
 $ git clone https://github.com/DeltaV93/python-test.git
 $ cd python-test
-$ pip install -r requirements.txt
+$ pip install -r requiremens.txt
 $ python manage.py migrate
 ````
 
@@ -39,32 +41,12 @@ python manage.py runserver
 
 Visit http://127.0.0.1:8000/generator/ to start the MoodReader process.
 
+// How do i use admin? it's asking for a user/password. Showing curl commands instead is more accessible.
+// Also it says I can use any crud method, but the endpoints only shows POST.
+
 Visit http://127.0.0.1:8000/admin/ to use any of the CRUD methods for the dictionary DB tables. 
 
-
-
-Set up
------------
-
-1. Add "generator" to your INSTALLED_APPS setting like this::
-
-````
-    INSTALLED_APPS = [
-        ...
-        'generator',
-    ]
-````
-
-2. Include the polls URLconf in your project urls.py like this::
-
-````
-    path('generator/', include('generator.urls')),
-````
-
-3. Run `python manage.py migrate` to create the generator models.
-
-4. Start the server and test things out. 
-
+// The website didn't work for me. Generate Mood didn't work.
 
 Endpoints
 -----------
@@ -72,3 +54,5 @@ Endpoints
 http://127.0.0.1:8000/generator/mood
 ````
 POST request that takes in the user `entry-mood` and returns `colors-list` to results page  
+
+//Show an actual post & results example. Are there any other endpoints?
