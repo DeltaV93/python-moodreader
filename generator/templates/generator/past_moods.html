@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "generator/base.html" %}
 
-</body>
-</html>
+{% block title %} Results | {{ site_title|default:_('MoodReader') }}{% endblock %}
+
+{% block content %}
+    <section class="row">
+    <div class="col-sm-12">
+            <h1 class="display-1">Past Mood</h1>
+            <p class="lead">See the other colors user have created with their words</p>
+    </div>
+    <div class="row">
+        {% for entry in entries %}
+            <div class="card w-100 mb-3">
+                <div class="card-header">
+                    <h4 class="card-title mb-0 display-4">{{ entry }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-9">
+                            <p class="card-text">{{ entry.entry }}</p>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="mrg-mood--box__color" style="height: 5vh; background-image: linear-gradient(to right, #{{ entry.gradient_color_stop_1 }}, #{{ entry.gradient_color_stop_2 }}, #{{ entry.gradient_color_stop_3 }}); ">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    </section>
+
+
+{% endblock %}
