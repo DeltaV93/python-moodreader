@@ -6,7 +6,7 @@ from .models import Dictionary
 class DictionaryAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['word']}),
-        ('Color Point', {'fields':['word_value']})
+        ('Color Point', {'fields': ['word_value']})
     ]
     list_display = ('word', 'word_value')
     list_filter = ['word']
