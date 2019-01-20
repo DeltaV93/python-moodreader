@@ -2,9 +2,6 @@ import math
 
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from django.urls import reverse
-from django.http import HttpResponse
-
 
 from .models import Dictionary, Entry
 from .forms import EntryForm
@@ -85,6 +82,6 @@ def color_stop_generator(entry):
 
 
 def num_to_hex(num):
-    num_to_power = math.pow((num * num * 6), 5.0)
+    num_to_power = math.pow((num * 6), 7.5)
     power_to_hex = hex(math.ceil(num_to_power))
     return '#%s' % power_to_hex[-6:]
