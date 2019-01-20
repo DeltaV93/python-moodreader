@@ -1,6 +1,6 @@
 import math
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse
 from django.http import HttpResponse
@@ -17,6 +17,12 @@ def past_moods(request):
     # entry = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
     entries = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
     return render(request, 'generator/past_moods.html', {'entries': entries})
+
+
+def detail_mood(request, pk):
+    entry = get_object_or_404(Entry, pk=pk)
+    return render(request, 'generator/detail_mood.html', {'entry': entry})
+
 
 def generate_mood(request, entry_id):
     # try:
