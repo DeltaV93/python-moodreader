@@ -43,8 +43,8 @@ def new_mood(request):
     else:
         print('not a post')
         print(form.errors)
-        form = EntryForm()
-    return render(request, 'generator/mood.html', {'entry': form})
+        # form = EntryForm()
+    return render(request, 'generator/mood.html', {'entry': color_stops})
 
 
 # From the name, I cannot tell what this does.
@@ -82,6 +82,9 @@ def color_stop_generator(entry):
 
 
 def num_to_hex(num):
-    num_to_power = math.pow((num * 6), 7.5)
+    num_to_power = (num ** num) * 5.0
     power_to_hex = hex(math.ceil(num_to_power))
-    return '#%s' % power_to_hex[-6:]
+    power_to_hex = '#%s' % power_to_hex[2:8]
+    print(hex(math.ceil(num_to_power)))
+    print(power_to_hex)
+    return power_to_hex
