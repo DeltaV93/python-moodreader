@@ -1,6 +1,5 @@
 import math
 
-from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse
@@ -27,10 +26,18 @@ def detail_mood(request, pk):
 
 def new_mood(request):
     form = EntryForm(request.POST)
+    mood_entry = request.POST['entry']
+    color_stops = color_stop_generator(mood_entry)
+    print(color_stops[0])
+    print(color_stops[1])
+    print(color_stops[2])
     if request.method == 'POST':
         if form.is_valid():
             entry = form.save(commit=False)
             entry.pub_date = timezone.now()
+            entry.gradient_color_stop_1 = color_stops[0]
+            entry.gradient_color_stop_2 = color_stops[1]
+            entry.gradient_color_stop_3 = color_stops[2]
             entry.save()
         else:
             print('form not valid')
@@ -40,59 +47,44 @@ def new_mood(request):
         print('not a post')
         print(form.errors)
         form = EntryForm()
-    # try:
     return render(request, 'generator/mood.html', {'entry': form})
-
-    # # If you find the need to add inline comments, that's a sign you need a new function.
-    # # Add documentation http://google.github.io/styleguide/pyguide.html
-    # mood_entry = request.POST['mood-entry']
-    # mood_entry_list = mood_entry.lower().split()
-    # # What is a group? Why are we getting a group of 3
-    # num_words_per_group = math.ceil(len(mood_entry_list)/3)
-    # color_points_list = []
-    #
-    # # find color point in db
-    # for w in mood_entry_list:
-    #     try:
-    #         # What is causing the error here? just the db_lookup? I'd take everything out of try/except.
-    #         # When you have alot in try/except it can muddle what is causing the error
-    #         db_lookup = Dictionary.objects.get(word=w)
-    #         get_color_point = db_lookup.word_value
-    #         color_points_list.append(get_color_point)
-    #     except Dictionary.DoesNotExist:
-    #         get_color_point = 0
-    #         # duplicate code
-    #         color_points_list.append(get_color_point)
-    # color_list = []
-    #
-    # # turn entry color points into hex colors
-    # # what is this?
-    # # what is a list_group?
-    # def group_sum_to_color(list_group):
-    #     # a bunch of for loops here. That adds time calculation. Anyway to combine?
-    #     # Always be thinking about how this would scale.
-    #     for group in list_group:
-    #         group_sum = sum(group)
-    #         sum_to_power = math.pow((group_sum * group_sum * 6), 5.0)
-    #         power_to_hex = hex(math.ceil(sum_to_power))
-    #         color_list.append(power_to_hex[-6:])
-    #
-    # color_points_groups = list(divide_into_chunks(color_points_list, num_words_per_group))
-    # group_sum_to_color(color_points_groups)
-    # # turn sum into hex color & pass back to UI
-    # # This works, but is not RESTful. Generally returning html is more frustrating
-    # # later on than using JSON and rendering in other ways.
-    # return render(request, 'generator/mood.html', {"color_list": color_list})
-    # return HttpResponse("You're voting on question %s." % entry_id)
 
 
 # From the name, I cannot tell what this does.
 # I almost never see sub-functions, It's generally separated out like this so it can be called anywhere.
 # split color point list into 3 and find sum for each
-def divide_into_chunks(group, num_chunks):
+def divide_into_chunks(group):
+    num_chunks = math.ceil(len(group) / 3)
     for i in range(0, len(group), num_chunks):
-        yield group[i:i + num_chunks]
+        yield list(group[i:i + num_chunks])
 
 
-def word_to_color_generator(entry):
-    return 'colors'
+def color_stop_generator(entry):
+    entry_to_list = entry.lower().split()
+    entry_group_lists = list(divide_into_chunks(entry_to_list))
+
+    print(entry_group_lists)
+    color_points_list = []
+    hex_color_list = []
+    i = 0
+
+    while i < len(entry_group_lists):
+        for word in entry_group_lists[i]:
+            try:
+                db_lookup = Dictionary.objects.get(word=word)
+            except Dictionary.DoesNotExist:
+                get_color_point = 0
+            else:
+                get_color_point = db_lookup.word_value
+            color_points_list.append(get_color_point)
+
+        group_sum = sum(num for num in color_points_list)
+        hex_color_list.append(num_to_hex(group_sum))
+        i += 1
+    return hex_color_list
+
+
+def num_to_hex(num):
+    num_to_power = math.pow((num * num * 6), 5.0)
+    power_to_hex = hex(math.ceil(num_to_power))
+    return '#%s' % power_to_hex[-6:]
