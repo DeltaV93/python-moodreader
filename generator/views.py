@@ -1,5 +1,6 @@
 import math
 
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse
@@ -7,6 +8,7 @@ from django.http import HttpResponse
 
 
 from .models import Dictionary, Entry
+from .forms import EntryForm
 
 
 def index(request):
@@ -14,7 +16,6 @@ def index(request):
 
 
 def past_moods(request):
-    # entry = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5]
     entries = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
     return render(request, 'generator/past_moods.html', {'entries': entries})
 
@@ -24,8 +25,23 @@ def detail_mood(request, pk):
     return render(request, 'generator/detail_mood.html', {'entry': entry})
 
 
-def generate_mood(request, entry_id):
+def new_mood(request):
+    form = EntryForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.pub_date = timezone.now()
+            entry.save()
+        else:
+            print('form not valid')
+            print(form)
+
+    else:
+        print('not a post')
+        print(form.errors)
+        form = EntryForm()
     # try:
+    return render(request, 'generator/mood.html', {'entry': form})
 
     # # If you find the need to add inline comments, that's a sign you need a new function.
     # # Add documentation http://google.github.io/styleguide/pyguide.html
@@ -67,7 +83,7 @@ def generate_mood(request, entry_id):
     # # This works, but is not RESTful. Generally returning html is more frustrating
     # # later on than using JSON and rendering in other ways.
     # return render(request, 'generator/mood.html', {"color_list": color_list})
-    return HttpResponse("You're voting on question %s." % entry_id)
+    # return HttpResponse("You're voting on question %s." % entry_id)
 
 
 # From the name, I cannot tell what this does.
@@ -76,3 +92,7 @@ def generate_mood(request, entry_id):
 def divide_into_chunks(group, num_chunks):
     for i in range(0, len(group), num_chunks):
         yield group[i:i + num_chunks]
+
+
+def word_to_color_generator(entry):
+    return 'colors'

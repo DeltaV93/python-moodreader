@@ -13,11 +13,15 @@
     <section class="mrg-section--try">
 
         <h2>Try it out now!</h2>
-        <form action="mood/" method="POST" class="container">
+        <form action="mood/new" method="POST" class="container">
             {% csrf_token %}
           <div class="form-group">
+            <label for="mood-title">Mood Title</label>
+            <input required class="form-control" placeholder="Enter a title" id="entry_title" name="entry_title">
+          </div>
+          <div class="form-group">
             <label for="mood-entry">Enter in a few words below to see what color your words will turn.</label>
-            <textarea class="form-control" placeholder="Enter 10 words or more so we can know how your feeling" id="mood-entry" name="mood-entry" rows="3"></textarea>
+            <textarea required  class="form-control" placeholder="Enter 10 words or more so we can know how your feeling" id="entry" name="entry" rows="3"></textarea>
           </div>
             <button id="btn--send-mood" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button>
     </section>
@@ -27,7 +31,7 @@
             crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-            var moodEntry = $('#mood-entry');
+            var moodEntry = $('#entry');
             var btn = $('#btn--send-mood');
 
             moodEntry.on('keyup',function () {

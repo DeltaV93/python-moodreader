@@ -12,7 +12,7 @@ class Dictionary(models.Model):
 
 class Entry(models.Model):
     entry_title = models.CharField(max_length=140)
-    entry = models.TextField()
+    entry = models.CharField(max_length=1400)
     gradient_color_stop_1 = models.CharField(max_length=7)
     gradient_color_stop_2 = models.CharField(max_length=7)
     gradient_color_stop_3 = models.CharField(max_length=7)
