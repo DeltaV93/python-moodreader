@@ -1,6 +1,6 @@
 import math
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
 from .models import Dictionary, Entry
@@ -23,33 +23,21 @@ def detail_mood(request, pk):
 
 def new_mood(request):
     form = EntryForm(request.POST)
-    mood_entry = request.POST['entry']
-    color_stops = color_stop_generator(mood_entry)
-    print(color_stops[0])
-    print(color_stops[1])
-    print(color_stops[2])
     if request.method == 'POST':
         if form.is_valid():
+            mood_entry = request.POST['entry']
+            color_stops = color_stop_generator(mood_entry)
             entry = form.save(commit=False)
             entry.pub_date = timezone.now()
             entry.gradient_color_stop_1 = color_stops[0]
             entry.gradient_color_stop_2 = color_stops[1]
             entry.gradient_color_stop_3 = color_stops[2]
             entry.save()
+            return redirect('generator:detail_mood', pk=entry.pk)
         else:
-            print('form not valid')
-            print(form)
-
-    else:
-        print('not a post')
-        print(form.errors)
-        # form = EntryForm()
-    return render(request, 'generator/mood.html', {'entry': color_stops})
+            return render(request, 'generator/index.html', {'error_message': "There was an error. Please try again.", })
 
 
-# From the name, I cannot tell what this does.
-# I almost never see sub-functions, It's generally separated out like this so it can be called anywhere.
-# split color point list into 3 and find sum for each
 def divide_into_chunks(group):
     num_chunks = math.ceil(len(group) / 3)
     for i in range(0, len(group), num_chunks):

@@ -11,9 +11,11 @@
     </section>
 
     <section class="mrg-section--try">
-
         <h2>Try it out now!</h2>
-        <form action="mood/new" method="POST" class="container">
+        {% if error_message %}
+            <div class="alert alert-warning" role="alert"><strong>Warning!</strong> {{ error_message }}</div>
+        {% endif %}
+        <form action="/mood/new" method="POST" class="container">
             {% csrf_token %}
           <div class="form-group">
             <label for="mood-title">Mood Title</label>
