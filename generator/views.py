@@ -48,7 +48,6 @@ def color_stop_generator(entry):
     entry_to_list = entry.lower().split()
     entry_group_lists = list(divide_into_chunks(entry_to_list))
 
-    print(entry_group_lists)
     color_points_list = []
     hex_color_list = []
     i = 0
@@ -73,6 +72,4 @@ def num_to_hex(num):
     num_to_power = (num ** num) * 5.0
     power_to_hex = hex(math.ceil(num_to_power))
     power_to_hex = '#%s' % power_to_hex[2:8]
-    print(hex(math.ceil(num_to_power)))
-    print(power_to_hex)
     return power_to_hex
