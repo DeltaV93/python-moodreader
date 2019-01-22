@@ -15,7 +15,7 @@
         {% if error_message %}
             <div class="alert alert-warning" role="alert"><strong>Warning!</strong> {{ error_message }}</div>
         {% endif %}
-        <form action="/mood/new" method="POST" class="container">
+        <form class="container">
             {% csrf_token %}
           <div class="form-group">
             <label for="mood-title">Mood Title</label>
@@ -25,16 +25,21 @@
             <label for="mood-entry">Enter in a few words below to see what color your words will turn.</label>
             <textarea required  class="form-control" placeholder="Enter 10 words or more so we can know how your feeling" id="entry" name="entry" rows="3"></textarea>
           </div>
-            <button id="btn--send-mood" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button>
+            <input type="hidden" name="gradient_color_stop_1">
+            <input type="hidden" name="gradient_color_stop_2">
+            <input type="hidden" name="gradient_color_stop_3">
+            <input type="hidden" name="pub_date">
+            <button id="btn--send-mood" type="button" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button>
     </section>
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script>
+    var btn = $('#btn--send-mood');
         $(document).ready(function () {
             var moodEntry = $('#entry');
-            var btn = $('#btn--send-mood');
+
 
             moodEntry.on('keyup',function () {
                 let wordCount = $(this).val().match(/\S+/g);
@@ -49,6 +54,20 @@
                 }
 
             });
+
+        });
+        function postMoodEntry(){
+            let formData = $('form').serialize();
+            $.post('http://localhost:8000/api',formData).done(function (data) {
+                console.log(data)
+            }).fail(function (data) {
+                console.log(data.status);
+                console.log(data.responseText);
+            })
+        }
+        btn.on('click', function(){
+            postMoodEntry();
         })
+
     </script>
 {% endblock %}

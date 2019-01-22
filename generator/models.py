@@ -13,10 +13,10 @@ class Dictionary(models.Model):
 class Entry(models.Model):
     entry_title = models.CharField(max_length=140)
     entry = models.CharField(max_length=1400)
-    gradient_color_stop_1 = models.CharField(max_length=7)
-    gradient_color_stop_2 = models.CharField(max_length=7)
-    gradient_color_stop_3 = models.CharField(max_length=7)
-    pub_date = models.DateTimeField('date entered')
+    gradient_color_stop_1 = models.CharField(max_length=7, blank=True)
+    gradient_color_stop_2 = models.CharField(max_length=7, blank=True)
+    gradient_color_stop_3 = models.CharField(max_length=7, blank=True)
+    pub_date = models.DateTimeField('date entered', blank=True)
 
     def publish(self):
         self.pub_date = timezone.now()

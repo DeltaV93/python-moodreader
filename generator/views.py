@@ -2,7 +2,9 @@ import math
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from rest_framework.generics import ListAPIView
 
+from generator.serializers import EntrySerializer
 from .models import Dictionary, Entry
 from .forms import EntryForm
 
@@ -21,21 +23,21 @@ def detail_mood(request, pk):
     return render(request, 'generator/detail_mood.html', {'entry': entry})
 
 
-def new_mood(request):
-    form = EntryForm(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            mood_entry = request.POST['entry']
-            color_stops = color_stop_generator(mood_entry)
-            entry = form.save(commit=False)
-            entry.pub_date = timezone.now()
-            entry.gradient_color_stop_1 = color_stops[0]
-            entry.gradient_color_stop_2 = color_stops[1]
-            entry.gradient_color_stop_3 = color_stops[2]
-            entry.save()
-            return redirect('generator:detail_mood', pk=entry.pk)
-        else:
-            return render(request, 'generator/index.html', {'error_message': "There was an error. Please try again.", })
+# def new_mood(request):
+#     form = EntryForm(request.POST)
+#     if request.method == 'POST':
+#         if form.is_valid():
+#             mood_entry = request.POST['entry']
+#             color_stops = color_stop_generator(mood_entry)
+#             entry = form.save(commit=False)
+#             entry.pub_date = timezone.now()
+#             entry.gradient_color_stop_1 = color_stops[0]
+#             entry.gradient_color_stop_2 = color_stops[1]
+#             entry.gradient_color_stop_3 = color_stops[2]
+#             entry.save()
+#             return redirect('generator:detail_mood', pk=entry.pk)
+#         else:
+#             return render(request, 'generator/index.html', {'error_message': "There was an error. Please try again.", })
 
 
 def divide_into_chunks(group):
