@@ -3,19 +3,28 @@
 {% block title %} {{ entry }} | {{ site_title|default:_('MoodReader') }}{% endblock %}
 
 {% block content %}
-    <section class="row">
-        <div class="col-sm-12">
-                <h1 class="display-3">{{ entry }}</h1>
-        </div>
+    <section id="intro" class="mood-color mb-0"
+             style="background-image: linear-gradient(to right, {{ entry.gradient_color_stop_1 }}, {{ entry.gradient_color_stop_2 }}, {{ entry.gradient_color_stop_3 }});">
+       <h1 class="display-2 container mood-color--label text-center text-white">Your Mood MoodColor</h1>
+    </section>
+    <section id="about" class="container">
         <div class="row">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12 col-md-9">
-                        <p class="card-text">{{ entry.entry }}</p>
-                    </div>
-                    <div class="col-sm-12 col-md-3">
-                        <div class="mrg-mood--box__color w-100" style="height: 5vh; background-image: linear-gradient(to right, {{ entry.gradient_color_stop_1 }}, {{ entry.gradient_color_stop_2 }}, {{ entry.gradient_color_stop_3 }}); "></div>
-                    </div>
+            <div class="col-sm-5">
+                <h1>{{ entry }}</h1>
+                <p class="card-text">{{ entry.entry }}</p>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="alert alert-mrg" role="note">
+                    <h3 class="h4 alert-heading mb-0">
+                        <img class="mrg-mood--icons mrg-mood--icons__info"
+                             src="/static/img/info-icon.svg" alt="Info Icon"> Note About
+                        Colors!</h3>
+                    <hr class="mt-1 mb-1">
+                    <p class="mb-0"><img class="mrg-mood--icons" src="/static/img/happy-icon.svg" alt="happy face icon">
+                        <b>Positive/happy</b> words will print bright happy colors
+                        <br>
+                        <img class="mrg-mood--icons" src="/static/img/sad-icon.svg" alt="sad face icon"> <b>Negative/sad/mad
+                            words</b> will print darker moody colors</p>
                 </div>
             </div>
         </div>

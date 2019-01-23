@@ -4,33 +4,88 @@
 {% block title %}Read My Mood | {{ site_title|default:_('MoodReader') }}{% endblock %}
 
 {% block content %}
-    <section class="mrg-section--about">
-        <h2>What's MoodReader?</h2>
-        <p>MoodReader is a mood ring but for your word. Type in how your feeling, what your thinking of, or even your
-            latest tweet to get a generated color gradient of your word mood.</p>
-    </section>
 
-    <section class="mrg-section--try">
-        <h2>Try it out now!</h2>
-        {% if error_message %}
-            <div class="alert alert-warning" role="alert"><strong>Warning!</strong> {{ error_message }}</div>
-        {% endif %}
-        <form class="container">
-            {% csrf_token %}
-          <div class="form-group">
-            <label for="mood-title">Mood Title</label>
-            <input required class="form-control" placeholder="Enter a title" id="entry_title" name="entry_title">
-          </div>
-          <div class="form-group">
-            <label for="mood-entry">Enter in a few words below to see what color your words will turn.</label>
-            <textarea required  class="form-control" placeholder="Enter 10 words or more so we can know how your feeling" id="entry" name="entry" rows="3"></textarea>
-          </div>
-            <input type="hidden" name="gradient_color_stop_1">
-            <input type="hidden" name="gradient_color_stop_2">
-            <input type="hidden" name="gradient_color_stop_3">
-            <input type="hidden" name="pub_date">
-            <button id="btn--send-mood" type="button" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button>
+    <section id="intro" class="clearfix ">
+        <div class="container">
+            <div class="intro-img wow fadeInUp">
+                <img src="static/img/logo.svg" alt="MoodReader Logo" class="img-fluid mx-auto d-block w-50">
+            </div>
+            <div class="intro-info text-white wow fadeIn">
+                <h2>MoodReader</h2>
+                <p>A digital Mood Reader for your words.</p>
+                <p>MoodReader is a mood ring but for your word. Type in how your feeling, what your thinking of, or even your
+            latest tweet to get a generated color gradient of your word mood.</p>
+                <a href="#why-us" class="btn btn-warning">Try Now</a>
+            </div>
+        </div>
     </section>
+    <main id="main">
+        <section id="about">
+        <header class="section-header">
+          <h3>Why Should You Check</h3>
+          <p>Sometimes we don't connect our the emotion in our words to how we feel daily. MoodReader is a easy way to
+          get a which check with colors</p>
+{#            <p>Would you paint with all the colors of your words?</p>#}
+        </header>
+        </section>
+        <section id="why-us" class="wow fadeIn">
+          <div class="container">
+            <header class="section-header">
+              <h3>Try Now</h3>
+              <h5 class="lead text-white text-center">Enter in a few words below to see what color your words will turn.</h5>
+            </header>
+
+            <div class="row row-eq-height justify-content-center">
+
+            <div class="form text-white col-sm-12 col-md-8">
+              <div id="sendmessage" class="d-none alert alert-success">Your message has been sent. Thank you!</div>
+              <div id="errormessage" class="d-none alert alert-warning"></div>
+              <form action="" method="post" role="form" class="contactForm">
+                <div class="form-group">
+                  <lable for="entry_title">Title</lable>
+                  <input type="text" class="form-control" name="entry_title" id="entry_title" placeholder="Create a title" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <lable for="entry">Enter Mood</lable>
+                  <textarea class="form-control" id="entry" name="entry" rows="5" data-rule="required" data-msg="Please write at least 10 words for a reading" placeholder="Enter your mood, or latest tweet"></textarea>
+                  <div class="validation"></div>
+                </div>
+                <div class="text-center"><button id="btn--send-mood" type="button" disabled class="btn btn-warning float-right"><b>Generate Mood</b></button></div>
+                  <input type="hidden" name="gradient_color_stop_1">
+                  <input type="hidden" name="gradient_color_stop_2">
+                  <input type="hidden" name="gradient_color_stop_3">
+                  <input type="hidden" name="pub_date">
+              </form>
+            </div>
+
+            </div>
+          </div>
+
+        </section>
+        <section id="portfolio" class="clearfix">
+          <div class="container">
+
+            <header class="section-header ">
+              <h3 class="section-title">Past Moods</h3>
+            </header>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <ul id="portfolio-flters">
+                  <li data-filter="*" class="filter-active">View More</li>
+                </ul>
+              </div>
+            </div>
+
+            <div id="past-moods" class="row card-columns portfolio-container">
+
+
+
+            </div>
+          </div>
+        </section>
+    </main>
     <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -55,19 +110,62 @@
 
             });
 
+            getPastMood();
+
         });
+
+        function setErrorState(obj){
+            let errorAlert = $('#error-msg');
+            errorAlert.append(
+                '<li>Please Check Highlighted Inputs Below</li>'
+            )
+            $.each(obj, function(key, value){
+                {#$('#'+value).toggleClass('is-invalid')#}
+                console.log(key)
+                console.log(value)
+            });
+        }
+
         function postMoodEntry(){
             let formData = $('form').serialize();
             $.post('http://localhost:8000/api',formData).done(function (data) {
-                console.log(data)
+                console.log(data);
+                document.location.href = '/mood/' + data.id
             }).fail(function (data) {
-                console.log(data.status);
-                console.log(data.responseText);
+                console.log(data);
+                {#console.log(JSON.stringify(data.responseText));#}
+                {#setErrorState($.parseJSON(data.responseText))#}
+                {#var test = $(data.responseText).serialize()#}
+                {#console.log(JSON.stringify(test))#}
             })
         }
         btn.on('click', function(){
             postMoodEntry();
         })
+        // get last 9 moods
+        function getPastMood(){
+            $.get('/api').done(function (data) {
+
+               for (i = 0; i < 10; i++) {
+                   let htmlBlock =
+                       '<div class="col-lg-4 col-md-6 portfolio-item filter-app">\n' +
+                       '<div class="portfolio-wrap mrg-mood--box__color" style="height: 30vh; background-image: linear-gradient' +
+                       '(to right, '+data[i].gradient_color_stop_1+','+data[i].gradient_color_stop_2+','+data[i].gradient_color_stop_3+')">\n' +
+                       '<div class="portfolio-info">\n' +
+                       '<h4><a href="/mood/'+ data[i].id +'">'+ data[i].entry_title +'</a></h4>\n' +
+                       '<div>\n' +
+                       '<a href="/mood/'+ data[i].id +'" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>\n' +
+                       '</div>\n' +
+                       '</div>\n' +
+                       '</div>\n' +
+                       '</div>';
+                   $('#past-moods').append(htmlBlock)
+               }
+
+            });
+
+        }
+
 
     </script>
 {% endblock %}
