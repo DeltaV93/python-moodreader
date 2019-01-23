@@ -57,6 +57,7 @@ def divide_into_chunks(group):
 
 def color_stop_generator(entry):
     entry_to_list = entry.lower().split()
+    # entry_to_list = entry_to_list.translate(None, string.punctuation)
     entry_group_lists = list(divide_into_chunks(entry_to_list))
 
     color_points_list = []
@@ -80,7 +81,7 @@ def color_stop_generator(entry):
 
 
 def num_to_hex(num):
-    num_to_power = (num ** num) * 4.0
+    num_to_power = math.pow(num, num)
     print(num_to_power)
     power_to_hex = hex(math.ceil(num_to_power))
     power_to_hex = '#%s' % power_to_hex[2:8]
