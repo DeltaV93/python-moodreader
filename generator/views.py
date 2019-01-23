@@ -1,12 +1,13 @@
 import math
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from rest_framework.generics import ListAPIView
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from generator.serializers import EntrySerializer
 from .models import Dictionary, Entry
-from .forms import EntryForm
 
 
 def index(request):
@@ -23,21 +24,29 @@ def detail_mood(request, pk):
     return render(request, 'generator/detail_mood.html', {'entry': entry})
 
 
-# def new_mood(request):
-#     form = EntryForm(request.POST)
-#     if request.method == 'POST':
-#         if form.is_valid():
-#             mood_entry = request.POST['entry']
-#             color_stops = color_stop_generator(mood_entry)
-#             entry = form.save(commit=False)
-#             entry.pub_date = timezone.now()
-#             entry.gradient_color_stop_1 = color_stops[0]
-#             entry.gradient_color_stop_2 = color_stops[1]
-#             entry.gradient_color_stop_3 = color_stops[2]
-#             entry.save()
-#             return redirect('generator:detail_mood', pk=entry.pk)
-#         else:
-#             return render(request, 'generator/index.html', {'error_message': "There was an error. Please try again.", })
+@api_view(['GET', 'POST'])
+def mood_generator(request):
+    """
+    List all code mood entries, or create a new mood entry.
+    """
+    if request.method == 'GET':
+        print('get')
+        entry = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
+        serializer = EntrySerializer(entry, many=True)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        serializer = EntrySerializer(data=request.data)
+        if serializer.is_valid():
+            mood_entry = serializer.validated_data['entry']
+            color_stops = color_stop_generator(mood_entry)
+            serializer.validated_data['pub_date'] = timezone.now()
+            serializer.validated_data['gradient_color_stop_1'] = color_stops[0]
+            serializer.validated_data['gradient_color_stop_2'] = color_stops[1]
+            serializer.validated_data['gradient_color_stop_3'] = color_stops[2]
+            print('POST')
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 def divide_into_chunks(group):
@@ -71,7 +80,9 @@ def color_stop_generator(entry):
 
 
 def num_to_hex(num):
-    num_to_power = (num ** num) * 5.0
+    num_to_power = (num ** num) * 4.0
+    print(num_to_power)
     power_to_hex = hex(math.ceil(num_to_power))
     power_to_hex = '#%s' % power_to_hex[2:8]
+    print(power_to_hex)
     return power_to_hex
