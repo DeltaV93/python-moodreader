@@ -38,8 +38,8 @@
             <div class="row row-eq-height justify-content-center">
 
             <div class="form text-white col-sm-12 col-md-8">
-              <div id="sendmessage" class="d-none alert alert-success">Your message has been sent. Thank you!</div>
-              <div id="errormessage" class="d-none alert alert-warning"></div>
+              <div id="sendmessage" class="d-none fadeIn wow  alert alert-success">Your message has been sent. Thank you!</div>
+              <div id="errormessage" class="d-none fadeIn wow  alert alert-danger">There was an error calculating your mood. Try adding a few more words.</div>
               <form action="" method="post" role="form" class="contactForm">
                 <div class="form-group">
                   <label for="entry_title">Title</label>
@@ -131,8 +131,12 @@
             $.post('http://localhost:8000/api',formData).done(function (data) {
                 console.log(data);
                 document.location.href = '/mood/' + data.id
+                $('#errormessage').addClass('d-none');
+                $('#sendmessage').removeClass('d-none');
             }).fail(function (data) {
                 console.log(data);
+                $('#errormessage').removeClass('d-none');
+                $('#sendmessage').addClass('d-none');
                 {#console.log(JSON.stringify(data.responseText));#}
                 {#setErrorState($.parseJSON(data.responseText))#}
                 {#var test = $(data.responseText).serialize()#}
