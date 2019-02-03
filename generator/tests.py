@@ -7,11 +7,13 @@ class TestEntryView(TestCase):
     def setUp(self):
         self.client = Client()
         self.entry_title = 'Jimi hendrix sunshine of your love'
+        #TODO: Pep8, line too long
         self.entry = "It's getting near dawn,When lights close their tired eyes.I'll soon be with you my love," \
                      "To give you my dawn surprise.I'll be with you darling soon,I'll be with you when the stars " \
                      "start falling.I've been waiting so longTo be where I'm goingIn the sunshine of your love.I'm " \
                      "with you my love,The light's shining through on you.Yes, I'm with you my love,It's the morning " \
                      "and just we two.I'll stay with you darling now,I'll stay with you till my seas are dried up."
+        # TODO: Why are these string numbers with spaes
         self.color_1 = ' 1'
         self.color_2 = '2 '
         self.color_3 = ' 3'
@@ -19,6 +21,7 @@ class TestEntryView(TestCase):
 
     # TEST TO MAKE SURE THE POST REQUEST IS WORKING
 
+    #TODO: use snake_case not camelCase interchangably.
     def test_mood_generator_POST_new_mood(self):
         response = self.client.post('/api', {
             'entry_title': self.entry_title,

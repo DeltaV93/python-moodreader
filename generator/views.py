@@ -30,6 +30,7 @@ def mood_generator(request):
     List all code mood entries, or create a new mood entry.
     """
     if request.method == 'GET':
+        # TODO: Prints should not be in final code
         print('get')
         entry = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
         serializer = EntrySerializer(entry, many=True)
@@ -40,6 +41,7 @@ def mood_generator(request):
             mood_entry = serializer.validated_data['entry']
             color_stops = color_stop_generator(mood_entry)
             serializer.validated_data['pub_date'] = timezone.now()
+            # TODO: Can this be a list instead of 3 different variables with numbers?
             serializer.validated_data['gradient_color_stop_1'] = color_stops[0]
             serializer.validated_data['gradient_color_stop_2'] = color_stops[1]
             serializer.validated_data['gradient_color_stop_3'] = color_stops[2]
@@ -50,12 +52,14 @@ def mood_generator(request):
 
 
 def divide_into_chunks(group):
+    # TODO: documentation & unit tests
     num_chunks = math.ceil(len(group) / 3)
     for i in range(0, len(group), num_chunks):
         yield list(group[i:i + num_chunks])
 
 
 def color_stop_generator(entry):
+    # TODO: documentation & unit tests
     entry_to_list = entry.lower().split()
     # entry_to_list = entry_to_list.translate(None, string.punctuation)
     entry_group_lists = list(divide_into_chunks(entry_to_list))
@@ -63,6 +67,7 @@ def color_stop_generator(entry):
     color_points_list = []
     hex_color_list = []
     i = 0
+    # TODO: one letter variable is unhelpful.
 
     while i < len(entry_group_lists):
         for word in entry_group_lists[i]:
@@ -71,6 +76,7 @@ def color_stop_generator(entry):
             except Dictionary.DoesNotExist:
                 get_color_point = 0
             else:
+                #TODO: Does this work? Pretty sure it should be finally, not else.
                 get_color_point = db_lookup.word_value
             color_points_list.append(get_color_point)
 
@@ -81,6 +87,7 @@ def color_stop_generator(entry):
 
 
 def num_to_hex(num):
+    # TODO: documentation & unit tests
     num_to_power = math.pow(num, num)
     print(num_to_power)
     power_to_hex = hex(math.ceil(num_to_power))

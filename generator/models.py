@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Dictionary(models.Model):
+class Dictionary(models.Model): # TODO: Dictionary is a type in python. so this is not a great naming
     word = models.CharField(max_length=200)
     word_value = models.IntegerField()
 

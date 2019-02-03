@@ -14,11 +14,15 @@ Installation
 -----------
 
 ````
-$ cd sites
-$ git clone https://github.com/DeltaV93/python-test.git
+$ cd sites - This only makes sense on your computer.
+$ git clone https://github.com/DeltaV93/python-test.git - you changed the name
 $ cd python-test
-$ virtualenv env
+$ virtualenv env - this does not work because it does not specify a version. I am using 2.7 as the default so it make the wrong virtual env
 $ source env/bin/activate
+
+// It looks like you have a virtual env in here already. I would remove it and use requirements.txt, that's best practice
+I did this instead: pipenv --python 3
+
 ````
 
 Run Test
